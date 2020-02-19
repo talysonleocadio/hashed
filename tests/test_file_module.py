@@ -1,7 +1,7 @@
 from unittest import TestCase, main as main_function
 from utils.file import (content_exists_in_file,
                         get_file_path,
-                        append_hash_in_file)
+                        append_content_on_file)
 
 
 class TestFileModuleFunctions(TestCase):
