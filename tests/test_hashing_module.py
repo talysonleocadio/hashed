@@ -1,8 +1,8 @@
-import unittest
+from unittest import TestCase, main as main_function
 from utils.hashing import _convert_from_string_to_byte, sha1_hex_digest
 
 
-class HashingTest(unittest.TestCase):
+class TestHashingModuleFunctions(TestCase):
 
     def setUp(self):
         self.string = "bytes!"
@@ -41,4 +41,4 @@ class HashingTest(unittest.TestCase):
                             "Digests are equal!")
 
     if __name__ == '__main__':
-        unittest.main()
+        main_function()
