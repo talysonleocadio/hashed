@@ -1,5 +1,5 @@
-from unittest import TestCase, main as main_function
-from utils.hashing import _convert_from_string_to_byte, sha1_hex_digest
+from unittest import TestCase, main
+from utils.hashes import _from_string_to_byte, sha1_hex_digest
 
 
 class TestHashingModuleFunctions(TestCase):
@@ -9,14 +9,14 @@ class TestHashingModuleFunctions(TestCase):
 
     def test_string_convertion_to_byte_object(self):
         expected_byte_obj = b"bytes!"
-        byte_object = _convert_from_string_to_byte(self.string)
+        byte_object = _from_string_to_byte(self.string)
 
         self.assertEqual(expected_byte_obj,
                          byte_object,
                          "Byte objects dont match!")
 
     def test_different_byte_objects_dont_match(self):
-        byte_object = _convert_from_string_to_byte(self.string)
+        byte_object = _from_string_to_byte(self.string)
         different_byte_obj = b"is not bytes!"
 
         self.assertNotEqual(different_byte_obj,
@@ -41,4 +41,5 @@ class TestHashingModuleFunctions(TestCase):
                             "Digests are equal!")
 
     if __name__ == '__main__':
-        main_function()
+        main()
+
