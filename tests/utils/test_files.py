@@ -1,4 +1,4 @@
-from unittest import TestCase, main as main
+from unittest import TestCase, main
 from utils.files import (digest_exists_in_file,
                          get_absolute_file_path,
                          file_exists,
