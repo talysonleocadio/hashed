@@ -59,5 +59,11 @@ class TestFileModuleFunctions(TestCase):
 
         self.assertEqual(end_of_file, expected_digest)
 
+    def test_wheter_file_exists_with_real_file(self):
+        self.assertTrue(file_exists(self.temp_file.name))
+
+    def test_whter_file_exists_with_inexistent_file(self):
+        self.assertFalse(file_exists("inexistent_file.txt"))
+
     if __name__ == '__main__':
         main()
