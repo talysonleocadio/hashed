@@ -53,11 +53,11 @@ class TestFileModuleFunctions(TestCase):
         try:
             with open(self.temp_file.name, 'r') as file:
                 file.seek(0)
-                eof = file.readlines()[-1]
+                end_of_file = file.readlines()[-1]
         except FileNotFoundError as error:
             print(f"Temp file does not exist: {error}")
 
-        self.assertEqual(eof, expected_digest)
+        self.assertEqual(end_of_file, expected_digest)
 
     if __name__ == '__main__':
         main()
