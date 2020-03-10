@@ -14,5 +14,8 @@ def file_exists(abs_file_path):
 
 
 def append_content_to_file(file_path, content):
-    return False
-
+    try:
+        with open(file_path, 'a+') as file:
+            file.write(content)
+    except FileNotFoundError as error:
+        print(f"File does not exist: {error}")
