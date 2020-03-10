@@ -39,7 +39,7 @@ class TestFileModuleFunctions(TestCase):
         self.assertTrue(is_the_same_file_path)
 
     def test_generated_file_paths_with_different_file_names(self):
-        diff_file_path = os.path.join(self.temp_path, "text_list.txt")
+        diff_file_path = f"{self.temp_path}/diff_file.txt"
         gen_file_path = get_absolute_file_path(self.temp_path,
                                                self.tempfile_name)
         is_the_same_file_path = (diff_file_path == gen_file_path)
