@@ -31,7 +31,7 @@ class TestFileModuleFunctions(TestCase):
         self.assertFalse(content_exists)
 
     def test_generated_file_paths_with_same_file_name(self):
-        expected_file_path = os.join(self.temp_path, self.tempfile_name)
+        expected_file_path = self.temp_file.name
         gen_file_path = get_absolute_file_path(self.temp_path,
                                                self.tempfile_name)
         is_the_same_file_path = (expected_file_path == gen_file_path)
