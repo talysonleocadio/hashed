@@ -13,6 +13,9 @@ class TestFileModuleFunctions(TestCase):
         self.temp_file = NamedTemporaryFile(mode='w+', suffix='.txt')
         self.tempfile_name = self.temp_file.name.split('/')[-1]
 
+    def tearDown(self):
+        self.temp_file.close()
+
     def test_file_content_comparation_where_content_exists(self):
         file_content = ["digest_one", "digest_two", "digest_three"]
         content_exists = digest_exists_in_file(file_content,
