@@ -2,8 +2,7 @@ from unittest import TestCase, main as main
 from utils.files import (digest_exists_in_file,
                          get_absolute_file_path,
                          file_exists,
-                         append_content_on_file)
-import os
+                         append_content_to_file)
 from tempfile import NamedTemporaryFile, gettempdir
 
 
