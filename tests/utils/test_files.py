@@ -63,4 +63,4 @@ class TestFileModuleFunctions(unittest.TestCase):
         self.assertFalse(file_utils.file_exists("inexistent_file.txt"))
 
     if __name__ == '__main__':
-        unittest.main()
+        unittest.main()  # pragma: no cover
