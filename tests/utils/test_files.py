@@ -47,16 +47,14 @@ class TestFileModuleFunctions(unittest.TestCase):
 
     def test_append_content_to_generated_tempfile(self):
         expected_digest = "be316e4"
-        file_utils.append_content_to_file(self.temp_file.name, "be316e4")
+        open_mock = mock_open()
 
-        try:
-            with open(self.temp_file.name, 'r') as file:
-                file.seek(0)
-                end_of_file = file.readlines()[-1]
-        except FileNotFoundError as error:
-            print(f"Temp file does not exist: {error}")
+        with patch('utils.files.open', open_mock):
+            file_utils.append_content_to_file(self.temp_file.name,
+                                              expected_digest)
 
-        self.assertEqual(end_of_file, expected_digest)
+        open_mock.assert_called_with(self.temp_file.name, 'a+')
+        open_mock.return_value.write.assert_called_with(expected_digest)
 
     def test_wheter_file_exists_with_real_file(self):
         self.assertTrue(file_utils.file_exists(self.temp_file.name))
