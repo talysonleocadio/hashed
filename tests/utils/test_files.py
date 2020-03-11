@@ -1,5 +1,5 @@
 import unittest
-from tempfile import NamedTemporaryFile, gettempdir
+import tempfile
 
 import utils.files as file_utils
 
@@ -7,8 +7,8 @@ import utils.files as file_utils
 class TestFileModuleFunctions(unittest.TestCase):
 
     def setUp(self):
-        self.temp_path = gettempdir()
-        self.temp_file = NamedTemporaryFile(mode='w+', suffix='.txt')
+        self.temp_path = tempfile.gettempdir()
+        self.temp_file = tempfile.NamedTemporaryFile(mode='w+', suffix='.txt')
         self.tempfile_name = self.temp_file.name.split('/')[-1]
 
     def tearDown(self):
