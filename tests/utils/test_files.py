@@ -62,11 +62,18 @@ class TestFileModuleFunctions(unittest.TestCase):
         open_mock.assert_called_with(self.temp_file.name, 'a+')
         open_mock.return_value.write.assert_called_with(expected_digest)
 
-    def test_wheter_file_exists_with_real_file(self):
-        self.assertTrue(file_utils.file_exists(self.temp_file.name))
+    def test_read_content_from_file_call(self):
+        open_mock = mock_open()
+        with patch('utils.files.open', open_mock):
+            file_utils.get_file_content(self.temp_file.name)
 
-    def test_whter_file_exists_with_inexistent_file(self):
-        self.assertFalse(file_utils.file_exists("inexistent_file.txt"))
+        open_mock.assert_called_with(self.temp_file.name, 'r')
+
+    def test_read_content_from_inexistent_file(self):
+        inexistent_file = 'inexistent_file.txt'
+        self.assertRaises(FileNotFoundError,
+                          file_utils.get_file_content,
+                          inexistent_file)
 
     if __name__ == '__main__':
         unittest.main()  # pragma: no cover
