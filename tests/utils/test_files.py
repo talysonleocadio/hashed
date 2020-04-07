@@ -51,6 +51,7 @@ class TestFileModuleFunctions(unittest.TestCase):
     def test_whter_file_exists_with_inexistent_file(self):
         self.assertFalse(file_utils.file_exists("inexistent_file.txt"))
 
+    def test_append_content_to_file_call(self):
         expected_digest = "be316e4"
         open_mock = mock_open()
 
