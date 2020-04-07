@@ -45,7 +45,12 @@ class TestFileModuleFunctions(unittest.TestCase):
 
         self.assertFalse(is_the_same_file_path)
 
-    def test_append_content_to_generated_tempfile(self):
+    def test_wheter_file_exists_with_real_file(self):
+        self.assertTrue(file_utils.file_exists(self.temp_file.name))
+
+    def test_whter_file_exists_with_inexistent_file(self):
+        self.assertFalse(file_utils.file_exists("inexistent_file.txt"))
+
         expected_digest = "be316e4"
         open_mock = mock_open()
 
