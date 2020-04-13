@@ -21,3 +21,14 @@ def append_content_to_file(file_path, content):
 def get_file_content(file_path):
     with open(file_path, 'r') as file:
         return file.read().splitlines()
+
+
+def has_some_offensive_fortune_pointer(off_file_list):
+    return any(len(file.split('.')) > 1 and file.split('.')[-1] == 'dat'
+               for file in off_file_list)
+
+
+def get_fortunes_from_file_list(file_list):
+    files_set = {file.split('.')[0]
+                 for file in file_list}
+    return list(files_set)
