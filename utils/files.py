@@ -23,7 +23,7 @@ def get_file_content(file_path):
         return file.read().splitlines()
 
 
-def has_some_offensive_fortune_pointer(off_file_list):
+def has_some_offensive_pointer(off_file_list):
     return any(len(file.split('.')) > 1 and file.split('.')[-1] == 'dat'
                for file in off_file_list)
 

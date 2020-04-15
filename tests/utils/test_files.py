@@ -75,10 +75,10 @@ class TestFileModuleFunctions(unittest.TestCase):
                           file_utils.get_file_content,
                           inexistent_file)
 
-    def test_has_some_offensive_fortune_available(self):
+    def test_has_some_offensive_pointer_available(self):
         off_fortunes = ['drugs', 'drugs.dat', 'sex', 'sex.dat']
         has_some_offense = (file_utils
-                            .has_some_offensive_fortune_pointer(off_fortunes))
+                            .has_some_offensive_pointer(off_fortunes))
         self.assertTrue(has_some_offense)
 
     def test_get_fortunes_from_file_list(self):
