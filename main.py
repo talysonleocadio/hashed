@@ -65,6 +65,29 @@ def greetings(confirmation, offensive):
             off_confirmation = click_prompt_wrapper('Are you sure about to post offensive fortunes?',
                                                     default_value)
 
+        fortune_msg, fortune_type = (fortunes.get_standard_fortunes()
+                                     if off_confirmation == 'n'
+                                     else fortunes.get_offensive_fortunes())
+
+        print(f'Here we go! The fortune msg is:\n {fortune_msg}'
+              f' Fortune type: {fortune_type}')
+
+        print('Checking if this fortune has been posted previously...')
+        home_path = os.environ.get('HOME')
+        file_path = os.path.join(home_path, '.fortunes_hashes')
+
+        fortune_digest = hashes.sha1_hex_digest(fortune_msg)
+        fortune_already_posted = (fortune_digest
+                                  in files.get_file_content(file_path))
+
+        if files.file_exists(file_path) and fortune_already_posted:
+            pass
+            # Oops! The fortune has already been posted...
+            # Do you wanna get other fortune?
+
+        # Try to post tweet with the fortune
+        # In case of success, write the digest to hash files
+
 
 def click_prompt_wrapper(prompt_msg, default_value, choices_args=default_option_choices):
     return click.prompt(prompt_msg,
