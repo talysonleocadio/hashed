@@ -52,7 +52,12 @@ def greetings(confirmation, offensive):
         print(f'\n{Fore.YELLOW}{Style.BRIGHT}WARNING: '
               f'{Style.RESET_ALL}Potentially Offensive fortunes are available.'
               ' Do you really like to use them?')
-        off_confirmation = use_off_confirmation()
+
+        default_value, choices = 'n', ['y', 'n', 'see']
+        off_confirmation = click_prompt_wrapper(
+            ('Offensive content may hurt people feelings.'
+             ' Type <see> to read Twitter policies'),
+            default_value, choices)
         while off_confirmation == 'see':
             open_twitter_rules()
             off_confirmation = use_off_confirmation(True)
