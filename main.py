@@ -12,6 +12,7 @@ init_colorama(autoreset=True)
 
 FORTUNES_FILE_PATH = '/usr/share/fortune'
 OFF_FILE_PATH = os.path.join(FORTUNES_FILE_PATH, 'off')
+default_option_choices = ['y', 'n']
 app_settings = {}
 
 
