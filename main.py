@@ -58,9 +58,12 @@ def greetings(confirmation, offensive):
             ('Offensive content may hurt people feelings.'
              ' Type <see> to read Twitter policies'),
             default_value, choices)
+
         while off_confirmation == 'see':
             open_twitter_rules()
-            off_confirmation = use_off_confirmation(True)
+            default_value = 'n'
+            off_confirmation = click_prompt_wrapper('Are you sure about to post offensive fortunes?',
+                                                    default_value)
 
 
 def click_prompt_wrapper(prompt_msg, default_value, choices_args=default_option_choices):
