@@ -58,10 +58,10 @@ def greetings(confirmation, offensive):
             off_confirmation = use_off_confirmation(True)
 
 
-def use_off_confirmation(rules_readed=False):
-    return click.prompt(('Offensive content may hurt people feelings.'
-                         ' Type <see> to read Twitter policies'),
-                        type=click.Choice(['y', 'n', 'see'],
+def click_prompt_wrapper(prompt_msg, default_value, choices_args=default_option_choices):
+    return click.prompt(prompt_msg,
+                        default=default_value,
+                        type=click.Choice(choices_args,
                                           case_sensitive=False))
 
 
