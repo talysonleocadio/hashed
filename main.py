@@ -6,7 +6,7 @@ import webbrowser
 import click
 from colorama import init as init_colorama, Fore, Style
 
-from utils import files
+from utils import files, hashes, fortunes
 
 init_colorama(autoreset=True)
 
