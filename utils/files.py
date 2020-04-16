@@ -20,7 +20,7 @@ def append_content_to_file(file_path, content):
 
 def get_file_content(file_path):
     with open(file_path, 'r') as file:
-        return file.read().splitlines()
+        return (line for line in file.read().splitlines())
 
 
 def has_some_offensive_pointer(off_file_list):
