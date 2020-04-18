@@ -11,10 +11,6 @@ def get_absolute_file_path(path, file_name):
     return os.path.join(path, file_name)
 
 
-def file_exists(abs_file_path):
-    return os.path.isfile(abs_file_path)
-
-
 def append_content_to_file(file_path, content):
     with open(file_path, 'a+') as file:
         file.write(content)
@@ -29,3 +25,7 @@ def get_fortunes_from_file_list(file_list):
     files_set = {file.split('.')[0]
                  for file in file_list}
     return list(files_set)
+
+
+def hash_file_exists():
+    return os.path.isfile(HASH_FILE_PATH)
