@@ -20,8 +20,8 @@ def append_content_to_file(file_path, content):
         file.write(content)
 
 
-def get_file_content(file_path):
-    with open(file_path, 'r') as file:
+def get_file_content():
+    with open(HASH_FILE_PATH, 'r') as file:
         return (line for line in file.read().splitlines())
 
 
