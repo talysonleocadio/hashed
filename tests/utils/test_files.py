@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import mock_open, patch
+from unittest.mock import mock_open, patch, Mock
 import tempfile
 
 import utils.files as file_utils
@@ -45,12 +45,6 @@ class TestFileModuleFunctions(unittest.TestCase):
 
         self.assertFalse(is_the_same_file_path)
 
-    def test_wheter_file_exists_with_real_file(self):
-        self.assertTrue(file_utils.file_exists(self.temp_file.name))
-
-    def test_whter_file_exists_with_inexistent_file(self):
-        self.assertFalse(file_utils.file_exists("inexistent_file.txt"))
-
     def test_append_content_to_file_call(self):
         expected_digest = "be316e4"
         open_mock = mock_open()
@@ -64,22 +58,16 @@ class TestFileModuleFunctions(unittest.TestCase):
 
     def test_read_content_from_file_call(self):
         open_mock = mock_open()
+        file_utils.HASH_FILE_PATH = self.temp_file.name
         with patch('utils.files.open', open_mock):
-            file_utils.get_file_content(self.temp_file.name)
+            file_utils.get_file_content()
 
         open_mock.assert_called_with(self.temp_file.name, 'r')
 
     def test_read_content_from_inexistent_file(self):
-        inexistent_file = 'inexistent_file.txt'
+        file_utils.HASH_FILE_PATH = 'inexistent_file.txt'
         self.assertRaises(FileNotFoundError,
-                          file_utils.get_file_content,
-                          inexistent_file)
-
-    def test_has_some_offensive_pointer_available(self):
-        off_fortunes = ['drugs', 'drugs.dat', 'sex', 'sex.dat']
-        has_some_offense = (file_utils
-                            .has_some_offensive_pointer(off_fortunes))
-        self.assertTrue(has_some_offense)
+                          file_utils.get_file_content)
 
     def test_get_fortunes_from_file_list(self):
         file_list = ['debian', 'debian.dat', 'kids', 'kids.dat']
@@ -87,6 +75,18 @@ class TestFileModuleFunctions(unittest.TestCase):
 
         fortunes = file_utils.get_fortunes_from_file_list(file_list)
         self.assertCountEqual(fortunes, expected_fortunes)
+
+    def test_hash_file_exists_with_mocked_path(self):
+        with patch('utils.files.HASH_FILE_PATH', self.temp_file.name):
+            hash_file_exists = file_utils.hash_file_exists()
+            self.assertTrue(hash_file_exists)
+
+    def test_hash_file_exists_os_path_is_file_args(self):
+        file_utils.os = Mock()
+        with patch('utils.files.HASH_FILE_PATH', self.temp_file.name):
+            file_utils.hash_file_exists()
+
+        file_utils.os.path.isfile.assert_called_with(self.temp_file.name)
 
     if __name__ == '__main__':
         unittest.main()  # pragma: no cover
