@@ -1,5 +1,7 @@
 import os
 
+HASH_FILE_PATH = os.path.join(os.environ.get('HOME'), '.hashed_fortunes')
+
 
 def digest_exists_in_file(file_content, hexdigest):
     return hexdigest in file_content
