@@ -1,17 +1,12 @@
 import os
-import subprocess
 from shutil import which
 import webbrowser
 
 import click
-from colorama import init as init_colorama, Fore, Style
 
 from utils import files, hashes, fortunes
 
-init_colorama(autoreset=True)
-
 FORTUNES_FILE_PATH = '/usr/share/fortune'
-OFF_FILE_PATH = os.path.join(FORTUNES_FILE_PATH, 'off')
 default_option_choices = ['y', 'n']
 app_settings = {}
 
@@ -23,9 +18,6 @@ def main():
 
     greetings()
 
-    # fortune_args = ["fortune", "50%", "funny", "50%", "not-funny"]
-    # stdout = subprocess.run(fortune_args, capture_output=True)
-
 
 @click.command()
 @click.option('--confirm',
@@ -35,61 +27,64 @@ def main():
               type=click.Choice(default_option_choices, case_sensitive=False),
               default='y',
               help='Confirm that you wanna post on Twitter')
-@click.option('--off-fortunes',
-              'offensive',
-              prompt='Do you like to use Potentially offensive fortunes?',
-              type=click.Choice(default_option_choices, case_sensitive=False),
-              default='n',
-              help='Confirm that you wanna use offensive fortunes')
 def greetings(confirmation, offensive):
     if confirmation == 'n':
         print('\nIf you like to post some stuff, comeback again later!')
         raise SystemExit(0)
 
-    off_files = os.listdir(OFF_FILE_PATH)
-    are_offs_available_to_use = files.has_some_offensive_pointer(off_files)
-    if are_offs_available_to_use and offensive == 'y':
-        print(f'\n{Fore.YELLOW}{Style.BRIGHT}WARNING: '
-              f'{Style.RESET_ALL}Potentially Offensive fortunes are available.'
-              ' Do you really like to use them?')
+    fortune_msg = get_random_fortune()
+    print(f'Here we go! The fortune msg is:\n{fortune_msg}')
 
-        default_value, choices = 'n', ['y', 'n', 'see']
-        off_confirmation = click_prompt_wrapper(
-            ('Offensive content may hurt people feelings.'
-             ' Type <see> to read Twitter policies'),
-            default_value, choices)
+    default_value, choices = 'y', ['y', 'n', 'see']
+    post_confirmation = prompt_wrapper(
+        ('Some content may hurt people feelings.'
+         ' Before you post I recomend you to read the policies'
+         ' Type <see> to read Twitter policies'),
+        default_value, choices)
 
-        while off_confirmation == 'see':
-            open_twitter_rules()
-            default_value = 'n'
-            off_confirmation = click_prompt_wrapper('Are you sure about to post offensive fortunes?',
-                                                    default_value)
-
-        fortune_msg, fortune_type = (fortunes.get_standard_fortunes()
-                                     if off_confirmation == 'n'
-                                     else fortunes.get_offensive_fortunes())
-
-        print(f'Here we go! The fortune msg is:\n {fortune_msg}'
-              f' Fortune type: {fortune_type}')
-
-        print('Checking if this fortune has been posted previously...')
-        home_path = os.environ.get('HOME')
-        file_path = os.path.join(home_path, '.fortunes_hashes')
-
-        fortune_digest = hashes.sha1_hex_digest(fortune_msg)
-        fortune_already_posted = (fortune_digest
-                                  in files.get_file_content(file_path))
-
-        if files.file_exists(file_path) and fortune_already_posted:
-            pass
-            # Oops! The fortune has already been posted...
-            # Do you wanna get other fortune?
+    while post_confirmation == 'see':
+        open_twitter_rules()
+        default_value = 'y'
+        post_confirmation = prompt_wrapper('All right! Do you wanna post?',
+                                           default_value)
 
         # Try to post tweet with the fortune
         # In case of success, write the digest to hash files
 
 
-def click_prompt_wrapper(prompt_msg, default_value, choices_args=default_option_choices):
+def get_random_fortune():
+    print('Getting a nice random fortune...\n')
+    fortune_msg = fortunes.get_random_fortune()
+    print('Checking if this fortune has been posted previously...\n')
+    fortune_already_posted = check_if_hash_exists_in_file(fortune_msg)
+
+    if files.hash_file_exists() and fortune_already_posted:
+        retry_confirmation = prompt_wrapper(
+            ('Oops! The fortune has already posted'
+             'Do you wanna try again?'),
+            'y', default_option_choices)
+
+        if retry_confirmation == 'n':
+            print('\n All right then, comeback again later!')
+            raise SystemExit(0)
+
+        get_random_fortune()
+
+    return fortune_msg
+
+
+def check_if_hash_exists_in_file(fortune_msg):
+    fortune_digest = hashes.sha1_hex_digest(fortune_msg)
+
+    try:
+        return fortune_digest in files.get_file_content()
+    except (FileNotFoundError, OSError):
+        return False
+
+
+def prompt_wrapper(prompt_msg,
+                   default_value,
+                   choices_args=default_option_choices):
     return click.prompt(prompt_msg,
                         default=default_value,
                         type=click.Choice(choices_args,
