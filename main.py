@@ -59,8 +59,8 @@ def get_random_fortune():
 
     if files.hash_file_exists() and fortune_already_posted:
         retry_confirmation = prompt_wrapper(
-            ('Oops! The fortune has already posted'
-             'Do you wanna try again?'),
+            ('Oops! The fortune has already posted.'
+             ' Do you wanna try again?\n'),
             'y', default_option_choices)
 
         if retry_confirmation == 'n':
