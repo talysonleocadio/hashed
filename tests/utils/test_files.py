@@ -81,12 +81,11 @@ class TestFileModuleFunctions(unittest.TestCase):
             hash_file_exists = file_utils.hash_file_exists()
             self.assertTrue(hash_file_exists)
 
-    def test_hash_file_exists_os_path_is_file_args(self):
-        file_utils.os = Mock()
-        with patch('utils.files.HASH_FILE_PATH', self.temp_file.name):
+    def test_hash_file_exists_os_module_call(self):
+        with patch('utils.files.os.path.isfile') as mock_os:
             file_utils.hash_file_exists()
+            mock_os.assert_called_with(file_utils.HASH_FILE_PATH)
 
-        file_utils.os.path.isfile.assert_called_with(self.temp_file.name)
 
     if __name__ == '__main__':
         unittest.main()  # pragma: no cover
