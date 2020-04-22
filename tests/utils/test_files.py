@@ -86,6 +86,9 @@ class TestFileModuleFunctions(unittest.TestCase):
             file_utils.hash_file_exists()
             mock_os.assert_called_with(file_utils.HASH_FILE_PATH)
 
+    def test_get_file_list(self):
+        files = file_utils.get_file_list(self.temp_path)
+        self.assertTrue(self.tempfile_name in files)
 
     if __name__ == '__main__':
         unittest.main()  # pragma: no cover
