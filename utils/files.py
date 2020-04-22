@@ -29,3 +29,8 @@ def get_fortunes_from_file_list(file_list):
 
 def hash_file_exists():
     return os.path.isfile(HASH_FILE_PATH)
+
+
+def get_file_list(path):
+    return [file for file in os.listdir(path)
+            if os.path.isfile(os.path.join(path, file))]
