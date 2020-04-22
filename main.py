@@ -26,7 +26,7 @@ def main():
               type=click.Choice(default_option_choices, case_sensitive=False),
               default='y',
               help='Confirm that you wanna post on Twitter')
-def greetings(confirmation, offensive):
+def greetings(confirmation):
     if confirmation == 'n':
         print('\nIf you like to post some stuff, comeback again later!')
         raise SystemExit(0)
