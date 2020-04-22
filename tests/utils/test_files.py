@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import mock_open, patch, Mock
+from unittest.mock import mock_open, patch
 import tempfile
 
 import utils.files as file_utils
