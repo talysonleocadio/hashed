@@ -45,16 +45,22 @@ class TestFortuneModuleFunctions(unittest.TestCase):
         self.assertCountEqual(fortune_args, expected_args)
 
     def test_get_fortune_calls(self):
-        with patch('utils.fortunes._get_random_fortune') as mock_get_fortune:
-            with patch('utils.fortunes._gen_fortune_args') as mock_gen_args:
-                arbitrary_fortune = 'computers'
-                mock_get_fortune.return_value = arbitrary_fortune
+        with patch('utils.fortunes._get_random_fortune') as mock_get:
+            with patch('utils.fortunes._gen_fortune_args') as mock_gen:
+                with patch('utils.fortunes.subprocess.run') as mock_run:
+                    arbitrary_fortune = 'computers'
+                    mock_get.return_value = arbitrary_fortune
 
-                fortunes.get_fortune_message()
-                mock_get_fortune.assert_called_once()
-                mock_gen_args.assert_called_once_with(arbitrary_fortune)
+                    arbitrary_args = ['fortune', '-s', 'magic']
+                    mock_gen.return_value = arbitrary_args
 
-
+                    fortunes.get_fortune_message()
+                    mock_get.assert_called_once()
+                    mock_gen.assert_called_once_with(arbitrary_fortune)
+                    mock_run.assert_called_once_with(arbitrary_args,
+                                                     capture_output=True,
+                                                     encoding='utf-8',
+                                                     check=True)
 
 
 if __name__ == '__main__':
