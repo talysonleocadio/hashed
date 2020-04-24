@@ -71,6 +71,15 @@ class TestFortuneModuleFunctions(unittest.TestCase):
                 self.assertRaises(CalledProcessError,
                                   fortunes.get_fortune_message)
 
+    def test_get_fortune_message_return_type_must_be_string(self):
+        with patch('utils.fortunes._get_random_fortune'):
+            with patch('utils.fortunes._gen_fortune_args') as mock_gen:
+                arbitrary_args = ['fortune', '-s', 'linux']
+                mock_gen.return_value = arbitrary_args
+
+                file_message = fortunes.get_fortune_message()
+                self.assertIsInstance(file_message, str)
+
 
 if __name__ == '__main__':
     unittest.main()  # pragma: no cover
