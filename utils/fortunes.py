@@ -10,6 +10,11 @@ def get_fortune_message():
     fortune = _get_random_fortune()
     fortune_args = _gen_fortune_args(fortune)
 
+    return subprocess.run(fortune_args,
+                          capture_output=True,
+                          encoding='utf-8',
+                          check=True).stdout
+
 
 def _get_random_fortune():
     file_list = files.get_file_list(FORTUNES_FILE_PATH)
