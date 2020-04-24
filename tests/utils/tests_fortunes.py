@@ -1,6 +1,6 @@
-from utils import fortunes
 import unittest
 from unittest.mock import patch
+from utils import fortunes
 
 
 class TestFortuneModuleFunctions(unittest.TestCase):
