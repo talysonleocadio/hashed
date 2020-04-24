@@ -62,6 +62,15 @@ class TestFortuneModuleFunctions(unittest.TestCase):
                                                      encoding='utf-8',
                                                      check=True)
 
+    def test_get_fortune_message_raises_called_process_error(self):
+        with patch('utils.fortunes._get_random_fortune'):
+            with patch('utils.fortunes._gen_fortune_args') as mock_gen:
+                args_with_invalid_option = ['fortune', '-z']
+                mock_gen.return_value = args_with_invalid_option
+
+                self.assertRaises(CalledProcessError,
+                                  fortunes.get_fortune_message)
+
 
 if __name__ == '__main__':
     unittest.main()  # pragma: no cover
