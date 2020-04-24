@@ -65,9 +65,9 @@ class TestFileModuleFunctions(unittest.TestCase):
         open_mock.assert_called_with(self.temp_file.name, 'r')
 
     def test_read_content_from_inexistent_file(self):
-        file_utils.HASH_FILE_PATH = 'inexistent_file.txt'
-        self.assertRaises(FileNotFoundError,
-                          file_utils.get_file_content)
+        with patch('utils.files.HASH_FILE_PATH', 'inexistent_file'):
+            self.assertRaises(FileNotFoundError,
+                              file_utils.get_file_content)
 
     def test_get_fortunes_from_file_list(self):
         file_list = ['debian', 'debian.dat', 'kids', 'kids.dat']
