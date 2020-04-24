@@ -1,5 +1,7 @@
 import unittest
 from unittest.mock import patch
+from subprocess import CalledProcessError
+
 from utils import fortunes
 
 
