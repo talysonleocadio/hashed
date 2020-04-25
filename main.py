@@ -69,8 +69,7 @@ def get_random_fortune():
 
         get_random_fortune()
 
-    return 'A fortune'
-    # return fortune_msg
+    return fortune_msg
 
 
 def check_if_hash_exists_in_file(fortune_msg):
