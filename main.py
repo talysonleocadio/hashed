@@ -23,8 +23,8 @@ def main():
               help='Confirm that you wanna post on Twitter')
 def greetings(confirmation):
     if confirmation == 'n':
-        print('\nIf you like to post some stuff, comeback again later!')
-        raise SystemExit(0)
+        misc.print_and_exit(
+            '\nIf you like to post some stuff, comeback again later!')
 
     fortune_msg = get_random_fortune()
     print(f'Here we go! The fortune msg is:\n{fortune_msg}')
