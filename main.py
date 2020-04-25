@@ -1,10 +1,8 @@
 from shutil import which
-import webbrowser
 
 import click
 
-from utils import files, hashes, fortunes
-
+from utils import files, hashes, fortunes, misc
 
 
 def main():
