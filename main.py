@@ -5,9 +5,6 @@ import click
 
 from utils import files, hashes, fortunes
 
-FORTUNES_FILE_PATH = '/usr/share/fortune'
-default_option_choices = ['y', 'n']
-app_settings = {}
 
 
 def main():
