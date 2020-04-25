@@ -32,7 +32,7 @@ def greetings(confirmation):
     default_value, choices = 'y', ['y', 'n', 'see']
     post_confirmation = misc.prompt_wrapper(
         ('Some content may hurt people feelings.\n'
-         'Before you post I recomend you to read the policies\n'
+         'Before you post I recomend you to read the policies.\n'
          'Type <see> to read Twitter policies'),
         default_value, choices)
 
