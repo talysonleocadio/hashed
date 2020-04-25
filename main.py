@@ -48,8 +48,8 @@ def greetings(confirmation):
 
 def get_random_fortune():
     print('Getting a nice random fortune...\n')
-    fortune_msg = fortunes.get_random_fortune()
-    print('Checking if this fortune has been posted previously...\n')
+    fortune_msg = fortunes.get_fortune_message()
+    print('Checking if the fortune has been posted previously...\n')
     fortune_already_posted = check_if_hash_exists_in_file(fortune_msg)
 
     if files.hash_file_exists() and fortune_already_posted:
