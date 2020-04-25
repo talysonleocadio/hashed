@@ -82,20 +82,5 @@ def check_if_hash_exists_in_file(fortune_msg):
         return False
 
 
-def prompt_wrapper(prompt_msg,
-                   default_value,
-                   choices_args=default_option_choices):
-    return click.prompt(prompt_msg,
-                        default=default_value,
-                        type=click.Choice(choices_args,
-                                          case_sensitive=False))
-
-
-def open_twitter_rules():
-    twitter_rules_url = ('https://help.twitter.com/en/rules-and-policies/'
-                         'twitter-rules')
-    webbrowser.open_new_tab(twitter_rules_url)
-
-
 if __name__ == '__main__':
     greetings()
