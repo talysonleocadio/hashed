@@ -18,7 +18,7 @@ def main():
               'confirmation',
               prompt=('\nGreetings! do you like to post some fortune'
                       ' on your twitter account today?'),
-              type=click.Choice(default_option_choices, case_sensitive=False),
+              type=click.Choice(['y', 'n'], case_sensitive=False),
               default='y',
               help='Confirm that you wanna post on Twitter')
 def greetings(confirmation):
