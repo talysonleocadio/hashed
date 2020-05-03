@@ -2,8 +2,6 @@ import unittest
 import contextlib
 from unittest.mock import patch
 
-import click
-
 from utils import misc
 
 
