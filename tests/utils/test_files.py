@@ -50,8 +50,8 @@ class TestFileModuleFunctions(unittest.TestCase):
         open_mock = mock_open()
 
         with patch('utils.files.open', open_mock):
-            file_utils.append_content_to_file(self.temp_file.name,
-                                              expected_digest)
+            file_utils.append_content_to_file(expected_digest,
+                                              self.temp_file.name)
 
         open_mock.assert_called_with(self.temp_file.name, 'a+')
         open_mock.return_value.write.assert_called_with(expected_digest)
@@ -69,13 +69,6 @@ class TestFileModuleFunctions(unittest.TestCase):
             self.assertRaises(FileNotFoundError,
                               file_utils.get_file_content)
 
-    def test_get_fortunes_from_file_list(self):
-        file_list = ['debian', 'debian.dat', 'kids', 'kids.dat']
-        expected_fortunes = ['debian', 'kids']
-
-        fortunes = file_utils.get_fortunes_from_file_list(file_list)
-        self.assertCountEqual(fortunes, expected_fortunes)
-
     def test_hash_file_exists_with_mocked_path(self):
         with patch('utils.files.HASH_FILE_PATH', self.temp_file.name):
             hash_file_exists = file_utils.hash_file_exists()
@@ -85,10 +78,6 @@ class TestFileModuleFunctions(unittest.TestCase):
         with patch('utils.files.os.path.isfile') as mock_os:
             file_utils.hash_file_exists()
             mock_os.assert_called_with(file_utils.HASH_FILE_PATH)
-
-    def test_get_file_list(self):
-        files = file_utils.get_file_list(self.temp_path)
-        self.assertTrue(self.tempfile_name in files)
 
     if __name__ == '__main__':
         unittest.main()  # pragma: no cover
