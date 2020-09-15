@@ -1,72 +1,39 @@
-from shutil import which
-
 import click
-
-from utils import files, hashes, fortunes, misc
-
-
-def main():
-    if which("fortune") is None:
-        raise Exception("Fortune is not installed on your sistem,"
-                        " please install it before continuing")
-
-    greetings()
+from utils import files, hashes, misc
 
 
 @click.command()
 @click.option('--confirm',
               'confirmation',
-              prompt=('\nGreetings! do you like to post some fortune'
-                      ' on your twitter account today?'),
+              prompt=('\nGreetings! do you like to transform some text'
+                      ' in a hash digest?'),
               type=click.Choice(['y', 'n'], case_sensitive=False),
               default='y',
-              help='Confirm that you wanna post on Twitter')
+              help='Confirm that you wanna transform some text in digest')
 def greetings(confirmation):
     if confirmation == 'n':
-        misc.print_and_exit(
-            '\nIf you like to post some stuff, comeback again later!')
+        misc.print_and_exit('\nAlright then, see ya!')
 
-    fortune_msg = get_random_fortune()
-    print(f'Here we go! The fortune msg is:\n{fortune_msg}')
-
-    default_value, choices = 'y', ['y', 'n', 'see']
-    post_confirmation = misc.prompt_wrapper(
-        ('Some content may hurt people feelings.\n'
-         'Before you post I recomend you to read the policies.\n'
-         'Type <see> to read Twitter policies'),
-        default_value, choices)
-
-    while post_confirmation == 'see':
-        misc.open_twitter_rules()
-        default_value = 'y'
-        post_confirmation = misc.prompt_wrapper('All right! Do u wanna post?',
-                                                default_value)
-
-        # Try to post tweet with the fortune
-        # In case of success, write the digest to hash files
+    get_user_input()
 
 
-def get_random_fortune():
-    print('Getting a nice random fortune...\n')
-    fortune_msg = fortunes.get_fortune_message()
-    print('Checking if the fortune has been posted previously...\n')
-    fortune_already_posted = check_if_hash_exists_in_file(fortune_msg)
+def get_user_input():
+    user_input = click.prompt('Text that you wanna to hash')
+    hash_exists_in_file = check_if_hash_exists_in_file(user_input)
 
-    if files.hash_file_exists() and fortune_already_posted:
-        retry_confirmation = misc.prompt_wrapper(
-            ('Oops! The fortune has already posted.'
-             ' Do you wanna try again?\n'), 'y')
+    if (hash_exists_in_file):
+        misc.print_and_exit('\nThis text digest already exists in file.'
+                            ' Please, try another one.')
 
-        if retry_confirmation == 'n':
-            misc.print_and_exit('All right then, comeback again later!')
+    input_digest = hashes.sha1_hex_digest(user_input)
+    files.append_content_to_file(input_digest)
 
-        get_random_fortune()
-
-    return fortune_msg
+    print(f'The digest: {input_digest} was successfully written to file: '
+          f'{files.HASH_FILE_PATH}')
 
 
-def check_if_hash_exists_in_file(fortune_msg):
-    fortune_digest = hashes.sha1_hex_digest(fortune_msg)
+def check_if_hash_exists_in_file(user_input):
+    fortune_digest = hashes.sha1_hex_digest(user_input)
 
     try:
         return fortune_digest in files.get_file_content()
